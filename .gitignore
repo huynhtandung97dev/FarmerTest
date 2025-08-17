@@ -1,0 +1,45 @@
+﻿# ASP.NET Core
+bin/
+obj/
+out/
+*.log
+*.vspscc
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Visual Studio
+.vs/
+*.vscode/
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+project.lock.json
+artifacts/
+
+# Config & secrets
+appsettings.*.json
+!appsettings.json
+secrets.json
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Others
+*.DS_Store
+Thumbs.db

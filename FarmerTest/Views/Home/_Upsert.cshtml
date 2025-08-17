@@ -1,0 +1,63 @@
+﻿@model FarmerTest.Models.Farmer
+
+<form asp-action="CreateOrEdit" asp-route-id="@Model.FarmerID" method="post" onsubmit="return submitUpsert(event)">
+    @Html.AntiForgeryToken()
+
+    <!-- Hiển thị lỗi chung (nếu có) -->
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2" role="alert"></div>
+
+    <div class="row g-3">
+        <div class="col-md-3">
+            <label asp-for="FarmerCode" class="form-label"></label>
+            @if (Model.FarmerID == 0)
+            {
+                <!-- THÊM MỚI: cho nhập -->
+                <input asp-for="FarmerCode" class="form-control" />
+            }
+            else
+            {
+                <!-- CHỈNH SỬA: không cho đổi -->
+                <input asp-for="FarmerCode" class="form-control" readonly />
+                <div class="form-text text-danger">Mã không thể thay đổi.</div>
+            }
+            <span asp-validation-for="FarmerCode" class="text-danger"></span>
+        </div>
+        <div class="col-md-5">
+            <label asp-for="FarmerName" class="form-label"></label>
+            <input asp-for="FarmerName" class="form-control" />
+            <span asp-validation-for="FarmerName" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-5">
+            <label asp-for="FarmerNameEN" class="form-label"></label>
+            <input asp-for="FarmerNameEN" class="form-control" />
+            <span asp-validation-for="FarmerNameEN" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Phone1" class="form-label"></label>
+            <input asp-for="Phone1" class="form-control" />
+            <span asp-validation-for="Phone1" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Phone2" class="form-label"></label>
+            <input asp-for="Phone2" class="form-control" />
+            <span asp-validation-for="Phone2" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <label asp-for="Address" class="form-label"></label>
+            <textarea asp-for="Address" class="form-control" rows="2"></textarea>
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Huỷ</button>
+        <button type="submit" class="btn btn-primary">Lưu</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

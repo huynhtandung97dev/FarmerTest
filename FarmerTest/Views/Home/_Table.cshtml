@@ -1,0 +1,103 @@
+﻿@using FarmerTest.Helpers
+@model PaginatedList<FarmerTest.Models.Farmer>
+@{
+    var q = ViewBag.Q as string;
+}
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-striped align-middle mb-0 table-stacked">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-center" style="width:68px;">
+                        <input 
+                               type="checkbox"
+                               id="chkAll"
+                               class="form-check-input"
+                               style="width: 20px; height: 20px;"
+                        />
+                    </th>
+                    <th>Mã</th>
+                    <th>Tên</th>
+                    <th>SĐT 1</th>
+                    <th>SĐT 2</th>
+                    <th>Địa chỉ</th>
+                    <th>Ngày tạo</th>
+                    <th>Ngày cập nhật</th>
+                    <th class="text-end sticky-last sticky-last-header">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="8" class="text-center py-4">Không có dữ liệu</td></tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center" data-label="Chọn">
+                                <input type="checkbox" class="row-check form-check-input" value="@item.FarmerID" style="width: 20px; height: 20px;" />
+                            </td>
+                            <td>@item.FarmerCode</td>
+                            <td style="min-width:150px">@item.FarmerName</td>
+                            <td>@item.Phone1</td>
+                            <td>@item.Phone2</td>
+                            <td class="text-truncate" style="max-width:280px">@item.Address</td>
+                            <td class="text-truncate" style="max-width:280px">@item.CreatedAt</td>
+                            <td class="text-truncate" style="max-width:280px">@item.UpdatedAt</td>
+                            <td class="text-end sticky-last">
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="openUpsert(@item.FarmerID)"><i class="bi bi-pencil-square"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(@item.FarmerID)"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-footer d-flex flex-wrap align-items-center gap-2">
+        <div>Trang <strong>@Model.PageIndex</strong>/<strong>@Model.TotalPages</strong> • Tổng <strong>@Model.TotalCount</strong> dòng</div>
+
+        <nav class="ms-auto">
+            <ul class="pagination mb-0">
+                <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" href="#" onclick="return gotoPage(@(Model.PageIndex - 1))">«</a>
+                </li>
+                @{
+                    int start = Math.Max(1, Model.PageIndex - 2);
+                    int end = Math.Min(Model.TotalPages, Model.PageIndex + 2);
+                    if (start > 1)
+                    {
+                        <li class="page-item"><a class="page-link" href="#" onclick="return gotoPage(1)">1</a></li>
+                        if (start > 2)
+                        {
+                            <li class="page-item disabled"><span class="page-link">…</span></li>
+                            ;
+                        }
+                    }
+                    for (int i = start; i <= end; i++)
+                    {
+                        <li class="page-item @(i == Model.PageIndex ? "active" : "")"><a class="page-link" href="#" onclick="return gotoPage(@i)">@i</a></li>
+                    }
+                    if (end < Model.TotalPages)
+                    {
+                        if (end < Model.TotalPages - 1)
+                        {
+                            <li class="page-item disabled"><span class="page-link">…</span></li>
+                            ;
+                        }
+                        <li class="page-item"><a class="page-link" href="#" onclick="return gotoPage(@Model.TotalPages)">@Model.TotalPages</a></li>
+                    }
+                }
+                <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" href="#" onclick="return gotoPage(@(Model.PageIndex + 1))">»</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
